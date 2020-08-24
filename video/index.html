@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频弹幕</title>
+  <style>
+    .container {
+      position: relative;
+      width: 856px;
+      /*视频元素宽度*/
+      height: 480px;
+    }
+
+    #v3 {
+      /* 视频区域 */
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      /*后层*/
+    }
+
+    #c3 {
+      /* 画布区域 */
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      /*前层*/
+    }
+  </style>
+</head>
+
+<body>
+  <h5>H5--视频弹幕</h5>
+  <div class="container">
+    <!-- 画布 -->
+    <canvas id="c3" width="856" height="480"></canvas>
+    <!-- 视频 -->
+    <video src="res/x.mp4" id="v3"></video>
+  </div>
+  <div>
+    <input type="text" id="inputMsg" placeholder="写下你的想法">
+    <input type="button" id="inputBtn" value="发送" >
+    <input type="button" id="inputPlay" value="播放">
+  </div>
+  <script src="js/main.js"></script>
+  <script src="js/msg.js"></script>
+</body>
+
+</html>

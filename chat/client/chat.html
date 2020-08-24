@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  @keyframes change1 {
+    0% {
+      display: block;
+    }
+
+    100% {
+      display: none;
+    }
+  }
+
+  .parent {
+    width: 300px;
+    background-color: wheat;
+    position: relative;
+  }
+
+  .top {
+    position: relative;
+    text-align: center;
+    background-color: yellow;
+  }
+
+  .top #sp_2 {
+    position: absolute;
+    color: turquoise;
+    background-color: whitesmoke;
+    top: 27px;
+    left: 35%;
+  }
+
+  .talk {
+    height: 400px;
+    overflow: auto;
+  }
+
+
+  .user {
+    clear: both;
+    line-height: 25px;
+    margin-top:10px;
+    color: red;
+    float: right;
+  }
+
+  .user>img {
+    float: right;
+    margin-right: 5px;
+  }
+
+  .messages {
+    clear: both;
+    height: 40px;
+    background-color: turquoise;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+  }
+
+  .messages>input {
+    height:23px;
+    width: 75%;
+    margin:5px 0 5px;
+    margin-left: 2px;
+  }
+</style>
+
+<body>
+  <div class="parent">
+    <div class="top">
+      <span id="sp_1">疯人院</span>
+      <span id="sp_2"></span>
+    </div>
+    <div class="talk">
+      <div class="user">
+        <img src="girl.png"><span id="sp">hello</span>
+      </div>
+      <div class="user_other" style="clear:both">
+        <img src="boy.png"><span id="sp_other">hello</span>
+      </div>
+    </div>
+    <div class="messages">
+      <input id="message" type="text" placeholder="请输入您想说的话....">&nbsp;<button onclick="btn1()">发送</button>
+    </div>
+  </div>
+  <script src="socket.io.js"></script>
+  <script>
+    // 连接服务器
+    var client = io("ws://127.0.0.1:9001");
+    var sp_top = document.getElementById("sp_2");
+    // 欢迎新人
+    // 绑定事件enter
+    client.on("enter", (data) => {
+      sp_top.innerHTML = "欢迎" + data.slice(16)
+    })
+
+    // 聊天
+    var msg = document.getElementById("message");
+    var sp_msg = document.getElementById("sp");
+    var other_msg = document.getElementById("sp_other");
+    var talk = document.querySelector(".talk")
+    // 添加新消息
+    function add() {
+      var new_span = (talk.children[0].cloneNode(true))
+      new_span = talk.appendChild(new_span);
+      new_span.children[1].innerHTML = msg.value;
+      msg.value = "";
+    }
+    
+    
+    // 发送消息，同时服务器端获得消息
+    function btn1() {
+      client.emit("message", msg.value);
+      add();
+    }
+    client.on("list", (data) => {
+      //other消息
+      var new_span_other = (talk.children[1].cloneNode(true))
+      new_span_other = talk.appendChild(new_span_other);
+      new_span_other.children[1].innerHTML = data
+      var a=talk.lastChild.children[1].innerHTML
+      var b=talk.lastChild.previousSibling.children[1].innerHTML
+      console.log(b)
+      if(a==b){
+        talk.lastChild.style.display="none"
+      }
+    })
+
+    // // XX下线
+    // // 绑定事件leave
+    client.on("leave", (data) => {
+      sp_top.innerHTML = data.slice(16) + "下线了"
+    })
+  </script>
+</body>
+
+</html>

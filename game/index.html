@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /*游戏画布与顶端间距*/
+    body {
+      padding-top: 10px;
+    }
+
+    /* 标题 */
+    .title{
+      float: left;
+    }
+    .title .btn{
+      display: block;
+      position:relative;
+      width: 60px;
+      height:60px;
+    }
+
+    .title #music_play,.title #music_stop {
+      position: absolute;
+      top:0px;
+      left:10px;
+
+    }
+    .title #music_stop{
+      width:30px;
+      top:-2px;
+      display: none;
+    }
+
+
+    /*1:最外层父元素*/
+    .all_bg {
+      width: 800px;
+      height: 600px;
+      margin: 0 auto;
+      border: 1px solid red;
+    }
+
+    /*2:画布父元素*/
+    .allcanvas {
+      position: relative;
+      width: 800px;
+      height: 600px;
+    }
+
+    /*3:两块画布*/
+    #canvas1 {
+      position: absolute;
+      z-index: 1;
+    }
+
+    #canvas2 {
+      position: absolute;
+      z-index: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="title">
+    <h5>小白鱼吃泡泡</h5>
+    <a class="btn" id="btn">
+      <img id="music_play" src="src/music.png" title="点击可关闭/打开音乐">
+      <img id="music_stop" src="src/sp_music.png" >
+      <audio id="music" loop></audio>
+    </a>
+  </div>
+
+  <div class="all_bg">
+    <div class="allcanvas">
+      <canvas id="canvas1" width="800" height="600">
+        <!-- 前面:大鱼;小鱼;分数 -->
+      </canvas>
+      <canvas id="canvas2" width="800" height="600">
+        <!-- 后面:背景;海葵;食物 -->
+      </canvas>
+    </div>
+  </div>
+  <script src="js/music.js"></script>
+  <script src="js/commonFunctions.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
